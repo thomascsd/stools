@@ -2,7 +2,7 @@
   // see https://www.typescriptlang.org/tsconfig to better understand tsconfigs
   "include": ["src", "types"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2020",
     "lib": ["dom", "esnext"],
     "importHelpers": true,
     // output .d.ts declaration files for consumers
@@ -31,5 +31,7 @@
     "forceConsistentCasingInFileNames": true,
     // `tsdx build` ignores this option, but it is commonly used when type-checking separately with `tsc`
     "noEmit": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
   }
 }
