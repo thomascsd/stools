@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ['10.x', '12.x', '14.x']
+        node: ['12.x', '14.x']
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
@@ -18,6 +18,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
+        env:
+          AIRTABLE_API: ${{ secrets.AIRTABLE_API }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
 
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
