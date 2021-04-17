@@ -8,7 +8,7 @@ export const apiKeyToken = new Token<string>(AIRTABLE_APIKEY_TOKEN);
 
 @Service()
 export class DataService {
-  constructor(@Inject(apiKeyToken) private apiKey: string) {
+  constructor(@Inject(apiKeyToken) public apiKey: string) {
     if (!this.apiKey) {
       this.apiKey = process.env.AIRTABLE_API ?? '';
     }
@@ -55,7 +55,7 @@ export class DataService {
     const id = tmpModel.id;
     delete tmpModel.id;
     const body = await airtable.updateRecord(tableName, {
-      id: id ?? '',
+      id: id as string,
       fields: tmpModel,
     });
 

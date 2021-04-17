@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
-import { DataService, BaseModel } from '../src';
+import { DataService, BaseModel, apiKeyToken } from '../src';
 import { AirtableRecord } from 'asyncairtable/lib/@types';
+import { Container } from 'typedi';
 
 config();
 
@@ -13,6 +14,17 @@ describe('DataService', () => {
 
   beforeEach(() => {
     service = new DataService(apiKey);
+  });
+
+  it('apikey by env', () => {
+    expect(service.apiKey).toEqual(apiKey);
+  });
+
+  it('apiKey by token', () => {
+    Container.set(apiKeyToken, apiKey);
+
+    service = new DataService(Container.get(apiKeyToken));
+    expect(service.apiKey).toEqual(apiKey);
   });
 
   it('get datas', async () => {
