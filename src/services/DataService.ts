@@ -42,24 +42,31 @@ export class DataService {
     return body;
   }
 
-  async saveData<T extends BaseModel>(baseId: string, tableName: string, data: T) {
+  async saveData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
     const airtable = this.getAirTableClient(baseId);
-    const body = await airtable.createRecord(tableName, data);
+    const body = await airtable.createRecord(tableName, model);
 
-    console.dir(body);
     return body;
   }
 
-  async updateData<T extends BaseModel>(baseId: string, tableName: string, data: T) {
-    const id = data.id;
-    delete data.id;
+  async updateData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
     const airtable = this.getAirTableClient(baseId);
+    const tmpModel = { ...model };
+    const id = tmpModel.id;
+    delete tmpModel.id;
     const body = await airtable.updateRecord(tableName, {
       id: id ?? '',
-      fields: data,
+      fields: tmpModel,
     });
-    console.dir(body);
+
     return body;
+  }
+
+  async deleteData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
+    const airtable = this.getAirTableClient(baseId);
+
+    const res = await airtable.deleteRecord(tableName, model.id as string);
+    return res;
   }
 
   private getAirTableClient(baseId: string) {
