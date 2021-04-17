@@ -1,10 +1,19 @@
 import AsyncAirtable from 'asyncairtable';
 import { AirtableRecord, SelectOptions } from 'asyncairtable/lib/@types';
-import { Service } from 'typedi';
+import { Service, Inject, Token } from 'typedi';
 import { BaseModel } from '../models/BaseModel';
+
+const AIRTABLE_APIKEY_TOKEN = 'stools_AIRTABLE_APIKEY_TOKEN';
+export const apiKeyToken = new Token<string>(AIRTABLE_APIKEY_TOKEN);
 
 @Service()
 export class DataService {
+  constructor(@Inject(apiKeyToken) private apiKey: string) {
+    if (!this.apiKey) {
+      this.apiKey = process.env.AIRTABLE_API ?? '';
+    }
+  }
+
   async getDatas<T extends BaseModel>(
     baseId: string,
     tableName: string,
@@ -33,11 +42,7 @@ export class DataService {
     return body;
   }
 
-  async saveData<T extends BaseModel>(
-    baseId: string,
-    tableName: string,
-    data: T
-  ) {
+  async saveData<T extends BaseModel>(baseId: string, tableName: string, data: T) {
     const airtable = this.getAirTableClient(baseId);
     const body = await airtable.createRecord(tableName, data);
 
@@ -45,16 +50,12 @@ export class DataService {
     return body;
   }
 
-  async updateData<T extends BaseModel>(
-    baseId: string,
-    tableName: string,
-    data: T
-  ) {
+  async updateData<T extends BaseModel>(baseId: string, tableName: string, data: T) {
     const id = data.id;
-    // delete data.id;
+    delete data.id;
     const airtable = this.getAirTableClient(baseId);
     const body = await airtable.updateRecord(tableName, {
-      id: id,
+      id: id ?? '',
       fields: data,
     });
     console.dir(body);
@@ -62,8 +63,7 @@ export class DataService {
   }
 
   private getAirTableClient(baseId: string) {
-    const apiKey = process.env.AIRTABLE_API ?? '';
-    const airtable = new AsyncAirtable(apiKey, baseId);
+    const airtable = new AsyncAirtable(this.apiKey, baseId);
 
     return airtable;
   }
