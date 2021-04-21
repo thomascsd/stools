@@ -29,13 +29,7 @@ export class DataService {
         return fields;
       })
       .map(fields => {
-        const keys = Object.keys(fields);
-        const obj: Record<string, unknown> = {};
-        for (let key of keys) {
-          const v = fields[key];
-          obj[key] = v;
-        }
-
+        const obj: Record<string, unknown> = { ...fields };
         return obj;
       }) as T[];
 
