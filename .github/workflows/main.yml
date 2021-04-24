@@ -25,8 +25,8 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo AIRTABLE_API: ${{ secrets.AIRTABLE_API }} >> .env
-          echo AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }} >> .env
+          echo AIRTABLE_API= ${{ secrets.AIRTABLE_API }} >> .env
+          echo AIRTABLE_BASE_ID= ${{ secrets.AIRTABLE_BASE_ID }} >> .env
 
       - name: Lint
         run: yarn lint
