@@ -1,4 +1,4 @@
-# stools
+# @thomascsd/stools
 
 ## Table of Contents
 
