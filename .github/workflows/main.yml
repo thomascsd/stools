@@ -22,15 +22,17 @@ jobs:
       - name: Install deps and build (with cache)
         uses: bahmutov/npm-install@v1
 
+      - name: Create env file
+        run: |
+          touch .env
+          echo AIRTABLE_API: ${{ secrets.AIRTABLE_API }} >> .env
+          echo AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }} >> .env
+
       - name: Lint
         run: yarn lint
 
       - name: Test
-        uses: actions/setup-node@v1
         run: yarn test --ci --coverage --maxWorkers=2
-        env:
-          AIRTABLE_API: ${{ secrets.AIRTABLE_API }}
-          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
 
       - name: Build
         run: yarn build
