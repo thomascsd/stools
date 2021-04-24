@@ -4,11 +4,11 @@ import { Service, Inject, Token } from 'typedi';
 import { BaseModel } from '../models/BaseModel';
 
 const AIRTABLE_APIKEY_TOKEN = 'stools_AIRTABLE_APIKEY_TOKEN';
-export const apiKeyToken = new Token<string>(AIRTABLE_APIKEY_TOKEN);
+export const API_KEY_TOKEN = new Token<string>(AIRTABLE_APIKEY_TOKEN);
 
 @Service()
 export class DataService {
-  constructor(@Inject(apiKeyToken) public apiKey: string) {
+  constructor(@Inject(API_KEY_TOKEN) public apiKey: string) {
     if (!this.apiKey) {
       this.apiKey = process.env.AIRTABLE_API ?? '';
     }
