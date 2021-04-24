@@ -5,40 +5,62 @@
 - [About](#about)
 - [Getting Started](#getting_started)
 - [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
 
 ## About <a name = "about"></a>
 
-My personal Swiss knife
+My Swiss knife
 
 ## Getting Started <a name = "getting_started"></a>
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See [deployment](#deployment) for notes on how to deploy the project on a live system.
+Flowing features;
 
-### Prerequisites
+- Wrap [async-airtable](https://github.com/GV14982/async-airtable) to access AirTable API easily.
+
+### Deep dependency
+
+stools use [typedi](https://github.com/typestack/typedi) as dependency injection, and [async-airtable](https://github.com/GV14982/async-airtable) as access AirTable API.
 
 ```
-npm i install typedi reflect-metadata asyncairtable
+npm install typedi reflect-metadata asyncairtable
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
-
 ```
-Give the example
+npm install @thomascsd/stools
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
 
 ## Usage <a name = "usage"></a>
 
-Add notes about how to use the system.
+```javascript
+import { Service, Container } from 'typedi';
+import { DataService, BaseModel, API_KEY_TOKEN } from '@thomascsd/stools';
+
+Container.set(API_KEY_TOKEN, process.env.<your api key>);
+
+const BASE_ID = '<your base id>';
+
+export class Contact extends BaseModel {
+  name: string;
+  email: string;
+  mobile: string;
+}
+
+@Service()
+export class ContactService {
+  constructor(private db: DataService) {}
+
+  async getContacts(): Promise<Contact[]> {
+    return await this.db.getDatas<Contact>(BASE_ID, '<your table name of AirTable>');
+  }
+
+  async saveContact(contact: Contact) {
+    return await this.db.saveData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
+  }
+
+  async updateContact(contact: Contact) {
+    return await this.db.updateData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
+  }
+}
+
+```
