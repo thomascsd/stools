@@ -1,4 +1,5 @@
 {
+  "name": "@thomascsd/stools",
   "version": "1.0.0",
   "license": "MIT",
   "main": "dist/index.js",
@@ -17,7 +18,8 @@
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "deploy": "cd dist && npm publish --access public"
   },
   "peerDependencies": {},
   "husky": {
@@ -31,7 +33,6 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "stools",
   "author": "thomascsd",
   "module": "dist/stools.esm.js",
   "size-limit": [
