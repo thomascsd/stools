@@ -1,7 +1,10 @@
 {
   "name": "@thomascsd/stools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/thomascsd/stools"
+  },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -13,10 +16,9 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "tsdx build --target node",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "deploy": "cd dist && npm publish --access public"
