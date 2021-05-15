@@ -5,7 +5,7 @@ import { BaseModel } from '../models/BaseModel';
 export class BaseService {
   constructor(public apiKey: string) {}
 
-  async getDatas<T extends BaseModel>(
+  async get<T extends BaseModel>(
     baseId: string,
     tableName: string,
     options?: SelectOptions
@@ -27,13 +27,13 @@ export class BaseService {
     return body;
   }
 
-  async saveData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
+  async save<T extends BaseModel>(baseId: string, tableName: string, model: T) {
     const airtable = this.getAirTableClient(baseId);
     const body = await airtable.createRecord(tableName, model);
     return body;
   }
 
-  async updateData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
+  async update<T extends BaseModel>(baseId: string, tableName: string, model: T) {
     const airtable = this.getAirTableClient(baseId);
     const tmpModel = { ...model };
     const id = tmpModel.id;
@@ -46,7 +46,7 @@ export class BaseService {
     return body;
   }
 
-  async deleteData<T extends BaseModel>(
+  async delete<T extends BaseModel>(
     baseId: string,
     tableName: string,
     model: T

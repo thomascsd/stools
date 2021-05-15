@@ -12,7 +12,7 @@ My Swiss knife
 
 ## Getting Started <a name = "getting_started"></a>
 
-Flowing features;
+Folowing features:
 
 - Wrap [async-airtable](https://github.com/GV14982/async-airtable) to access AirTable API easily.
 

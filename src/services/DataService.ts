@@ -1,14 +1,19 @@
-import AsyncAirtable from 'asyncairtable';
-import { AirtableRecord, SelectOptions } from 'asyncairtable/lib/@types';
+import { AirtableRecord, DeleteResponse, SelectOptions } from 'asyncairtable/lib/@types';
 import { Service, Inject, Token } from 'typedi';
 import { BaseModel } from '../models/BaseModel';
+import { BaseService } from './BaseService';
 
 const AIRTABLE_APIKEY_TOKEN = 'stools_AIRTABLE_APIKEY_TOKEN';
 export const API_KEY_TOKEN = new Token<string>(AIRTABLE_APIKEY_TOKEN);
 
+/**
+ * Define  service that access AirTable's data, and use DI with typedi.
+ */
 @Service()
-export class DataService {
+export class DataService extends BaseService {
   constructor(@Inject(API_KEY_TOKEN) public apiKey: string) {
+    super(apiKey);
+
     if (!this.apiKey) {
       this.apiKey = process.env.AIRTABLE_API ?? '';
     }
@@ -19,53 +24,30 @@ export class DataService {
     tableName: string,
     options?: SelectOptions
   ): Promise<T[]> {
-    const airtable = this.getAirTableClient(baseId);
-    const records: AirtableRecord[] = await airtable.select(tableName, options);
-
-    const body = records
-      .map((o: AirtableRecord) => {
-        const fields = o.fields;
-        fields.id = o.id;
-        return fields;
-      })
-      .map(fields => {
-        const obj: Record<string, unknown> = { ...fields };
-        return obj;
-      }) as T[];
-
-    return body;
+    return await super.get<T>(baseId, tableName, options);
   }
 
-  async saveData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
-    const airtable = this.getAirTableClient(baseId);
-    const body = await airtable.createRecord(tableName, model);
-
-    return body;
+  async saveData<T extends BaseModel>(
+    baseId: string,
+    tableName: string,
+    model: T
+  ): Promise<AirtableRecord> {
+    return await super.save<T>(baseId, tableName, model);
   }
 
-  async updateData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
-    const airtable = this.getAirTableClient(baseId);
-    const tmpModel = { ...model };
-    const id = tmpModel.id;
-    delete tmpModel.id;
-    const body = await airtable.updateRecord(tableName, {
-      id: id as string,
-      fields: tmpModel,
-    });
-
-    return body;
+  async updateData<T extends BaseModel>(
+    baseId: string,
+    tableName: string,
+    model: T
+  ): Promise<AirtableRecord> {
+    return await super.update<T>(baseId, tableName, model);
   }
 
-  async deleteData<T extends BaseModel>(baseId: string, tableName: string, model: T) {
-    const airtable = this.getAirTableClient(baseId);
-
-    const res = await airtable.deleteRecord(tableName, model.id as string);
-    return res;
-  }
-
-  private getAirTableClient(baseId: string) {
-    const airtable = new AsyncAirtable(this.apiKey, baseId);
-
-    return airtable;
+  async deleteData<T extends BaseModel>(
+    baseId: string,
+    tableName: string,
+    model: T
+  ): Promise<DeleteResponse> {
+    return await super.delete<T>(baseId, tableName, model);
   }
 }
