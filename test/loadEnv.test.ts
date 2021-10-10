@@ -4,6 +4,6 @@ loadEnv();
 
 describe('load env', () => {
   it('test env', () => {
-    expect('').toEqual('');
+    expect(process.env.TEST_VALUE).toEqual('12345');
   });
 });

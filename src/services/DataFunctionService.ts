@@ -3,7 +3,11 @@ import { BaseModel } from '../models/BaseModel';
 import { BaseService } from './BaseService';
 
 /**
- * Define  service that access AirTable's data
+ * Defines  service that access AirTable's data
+ *
+ * @export
+ * @class DataFunctionService
+ * @extends {BaseService}
  */
 export class DataFunctionService extends BaseService {
   constructor(public apiKey: string, public baseId: string) {

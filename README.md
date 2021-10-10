@@ -4,7 +4,7 @@
 
 - [About](#about)
 - [Getting Started](#getting_started)
-- [Usage](#usage)
+- [Docs](#docs)
 
 ## About <a name = "about"></a>
 
@@ -30,37 +30,4 @@ npm install typedi reflect-metadata asyncairtable
 npm install @thomascsd/stools
 ```
 
-## Usage <a name = "usage"></a>
-
-```javascript
-import { Service, Container } from 'typedi';
-import { DataService, BaseModel, API_KEY_TOKEN } from '@thomascsd/stools';
-
-Container.set(API_KEY_TOKEN, process.env.<your api key>);
-
-const BASE_ID = '<your base id>';
-
-export class Contact extends BaseModel {
-  name: string;
-  email: string;
-  mobile: string;
-}
-
-@Service()
-export class ContactService {
-  constructor(private db: DataService) {}
-
-  async getContacts(): Promise<Contact[]> {
-    return await this.db.getDatas<Contact>(BASE_ID, '<your table name of AirTable>');
-  }
-
-  async saveContact(contact: Contact) {
-    return await this.db.saveData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
-  }
-
-  async updateContact(contact: Contact) {
-    return await this.db.updateData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
-  }
-}
-
-```
+## Doc <a name = "docs"></a>
