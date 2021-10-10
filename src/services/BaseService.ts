@@ -2,10 +2,16 @@ import AsyncAirtable from 'asyncairtable';
 import { AirtableRecord, SelectOptions, DeleteResponse } from 'asyncairtable/lib/@types';
 import { BaseModel } from '../models/BaseModel';
 
+/**
+ * Base class that access AitTable api
+ *
+ * @export
+ * @class BaseService
+ */
 export class BaseService {
   constructor(public apiKey: string) {}
 
-  async get<T extends BaseModel>(
+  protected async get<T extends BaseModel>(
     baseId: string,
     tableName: string,
     options?: SelectOptions
@@ -27,7 +33,7 @@ export class BaseService {
     return body;
   }
 
-  async save<T extends BaseModel>(baseId: string, tableName: string, model: T) {
+  protected async save<T extends BaseModel>(baseId: string, tableName: string, model: T) {
     const airtable = this.getAirTableClient(baseId);
     const body = await airtable.createRecord(tableName, model);
     return body;
@@ -46,7 +52,7 @@ export class BaseService {
     return body;
   }
 
-  async delete<T extends BaseModel>(
+  protected async delete<T extends BaseModel>(
     baseId: string,
     tableName: string,
     model: T

@@ -12,7 +12,8 @@ export const API_KEY_TOKEN = new Token<string>(AIRTABLE_APIKEY_TOKEN);
 
 /**
  * Defines service that access AirTable's data, and use DI with typedi.
- * ```javascript
+ * 
+ * ```typescript
  * import { Service, Container } from 'typedi';
  * import { DataService, BaseModel, API_KEY_TOKEN } from '@thomascsd/stools';
 
@@ -43,6 +44,7 @@ export const API_KEY_TOKEN = new Token<string>(AIRTABLE_APIKEY_TOKEN);
  * }
  * }
  * ```
+ * 
  * @export
  * @class DataService
  * @extends {BaseService}
@@ -57,6 +59,16 @@ export class DataService extends BaseService {
     }
   }
 
+  /**
+   * Get Datas from AirTable
+   *
+   * @template T
+   * @param {string} baseId
+   * @param {string} tableName
+   * @param {SelectOptions} [options]
+   * @return {*}  {Promise<T[]>}
+   * @memberof DataService
+   */
   async getDatas<T extends BaseModel>(
     baseId: string,
     tableName: string,
@@ -65,6 +77,16 @@ export class DataService extends BaseService {
     return await super.get<T>(baseId, tableName, options);
   }
 
+  /**
+   * Insert data to Airtable
+   *
+   * @template T
+   * @param {string} baseId
+   * @param {string} tableName
+   * @param {T} model
+   * @return {*}  {Promise<AirtableRecord>}
+   * @memberof DataService
+   */
   async saveData<T extends BaseModel>(
     baseId: string,
     tableName: string,
@@ -73,6 +95,16 @@ export class DataService extends BaseService {
     return await super.save<T>(baseId, tableName, model);
   }
 
+  /**
+   * Update data to AirTable
+   *
+   * @template T
+   * @param {string} baseId
+   * @param {string} tableName
+   * @param {T} model
+   * @return {*}  {Promise<AirtableRecord>}
+   * @memberof DataService
+   */
   async updateData<T extends BaseModel>(
     baseId: string,
     tableName: string,
@@ -81,6 +113,16 @@ export class DataService extends BaseService {
     return await super.update<T>(baseId, tableName, model);
   }
 
+  /**
+   * Delete data from AirTable
+   *
+   * @template T
+   * @param {string} baseId
+   * @param {string} tableName
+   * @param {T} model
+   * @return {*}  {Promise<DeleteResponse>}
+   * @memberof DataService
+   */
   async deleteData<T extends BaseModel>(
     baseId: string,
     tableName: string,

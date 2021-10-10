@@ -31,3 +31,5 @@ npm install @thomascsd/stools
 ```
 
 ## Doc <a name = "docs"></a>
+
+[docs](https://github.com/thomascsd/stools/docs/index.html)
