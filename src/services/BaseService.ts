@@ -1,5 +1,5 @@
 import AsyncAirtable from 'asyncairtable';
-import { AirtableRecord, SelectOptions, DeleteResponse } from 'asyncairtable/lib/@types';
+import { AirtableRecord, SelectOptions, DeleteResponse } from 'asyncairtable';
 import { BaseModel } from '../models/BaseModel';
 
 /**
