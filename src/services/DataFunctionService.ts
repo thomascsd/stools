@@ -1,4 +1,4 @@
-import { SelectOptions, AirtableRecord, DeleteResponse } from 'asyncairtable';
+import { AirtableRecord, DeleteResponse, SelectOptions } from 'asyncairtable/lib/@types';
 import { BaseModel } from '../models/BaseModel';
 import { BaseService } from './BaseService';
 
