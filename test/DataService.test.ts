@@ -1,7 +1,8 @@
 import { config } from 'dotenv';
-import { DataService, BaseModel, API_KEY_TOKEN } from '../src';
+import { BaseModel } from '@thomascsd/stools-models';
 import { AirtableRecord } from 'asyncairtable/lib/@types';
 import { Container } from 'typedi';
+import { DataService, API_KEY_TOKEN } from '../src';
 
 config();
 

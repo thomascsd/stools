@@ -1,5 +1,5 @@
 import { AirtableRecord, DeleteResponse, SelectOptions } from 'asyncairtable/lib/@types';
-import { BaseModel } from '../models/BaseModel';
+import { BaseModel } from '@thomascsd/stools-models';
 import { BaseService } from './BaseService';
 
 /**

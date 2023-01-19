@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
-import { DataFunctionService, BaseModel } from '../src';
+import { BaseModel } from '@thomascsd/stools-models';
+import { DataFunctionService } from '../src';
 import { AirtableRecord } from 'asyncairtable/lib/@types';
 
 config();

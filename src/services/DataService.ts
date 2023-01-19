@@ -1,6 +1,6 @@
 import { AirtableRecord, DeleteResponse, SelectOptions } from 'asyncairtable/lib/@types';
 import { Service, Inject, Token } from 'typedi';
-import { BaseModel } from '../models/BaseModel';
+import { BaseModel } from '@thomascsd/stools-models';
 import { BaseService } from './BaseService';
 
 const AIRTABLE_APIKEY_TOKEN = 'stools_AIRTABLE_APIKEY_TOKEN';
