@@ -1,4 +1,4 @@
-export * from './AirTableCreateMapping.js';
-export * from './AirTableListMapping.js';
-export * from './AirTableDeleteMapping.js';
+export * from './AirtableResult.js';
+export * from './AirTableList.js';
+export * from './AirtableDeletion.js';
 export * from './SelectOptions.js';

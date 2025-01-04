@@ -1,9 +1,5 @@
 import got from 'got';
-import {
-  AirtableListMapping,
-  AirtableCreateMapping,
-  AirtableDeleteMapping,
-} from '../dtos/index.js';
+import { AirtableList, AirtableResult, AirtableDeletion } from '../dtos/index.js';
 
 /**
  * HttpService class to interact with the Airtable API.
@@ -27,9 +23,9 @@ export class HttpService {
    * @param tableName - The name of the table.
    * @returns A promise that resolves to an AirTableListMapping object.
    */
-  async list(tableName: string): Promise<AirtableListMapping> {
+  async list(tableName: string): Promise<AirtableList> {
     this.url += `${this.baseId}/${tableName}`;
-    const data = await got.get(this.url).json<AirtableListMapping>();
+    const data = await got.get(this.url).json<AirtableList>();
     return data;
   }
 
@@ -39,7 +35,7 @@ export class HttpService {
    * @param body - The data to be inserted as a new record.
    * @returns A promise that resolves to an AirTableCreateMapping object.
    */
-  async create(tableName: string, body: Record<string, unknown>): Promise<AirtableCreateMapping> {
+  async create(tableName: string, body: Record<string, unknown>): Promise<AirtableResult> {
     this.url += `${this.baseId}/${tableName}`;
 
     const data = await got
@@ -47,7 +43,7 @@ export class HttpService {
         headers: { Authorization: this.getToken() },
         json: body,
       })
-      .json<AirtableCreateMapping>();
+      .json<AirtableResult>();
     return data;
   }
 
@@ -62,7 +58,7 @@ export class HttpService {
     tableName: string,
     recordId: string,
     body: Record<string, unknown>
-  ): Promise<AirtableCreateMapping> {
+  ): Promise<AirtableResult> {
     this.url += `${this.baseId}/${tableName}/${recordId}`;
     var req = {
       returnFieldsByFieldId: false,
@@ -75,7 +71,7 @@ export class HttpService {
         headers: { Authorization: this.getToken() },
         json: req,
       })
-      .json<AirtableCreateMapping>();
+      .json<AirtableResult>();
     return data;
   }
 
@@ -85,7 +81,7 @@ export class HttpService {
    * @param recordId - The ID of the record to be deleted.
    * @returns A promise that resolves to an AirTableDeleteMapping object.
    */
-  async delete(tableName: string, recordId: string): Promise<AirtableDeleteMapping> {
+  async delete(tableName: string, recordId: string): Promise<AirtableDeletion> {
     this.url += `${this.baseId}/${tableName}/${recordId}`;
     const data = await got
       .delete(this.url, {
@@ -93,7 +89,7 @@ export class HttpService {
           Authorization: this.getToken(),
         },
       })
-      .json<AirtableDeleteMapping>();
+      .json<AirtableDeletion>();
     return data;
   }
 

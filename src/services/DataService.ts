@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { BaseModel } from '@thomascsd/stools-models';
 import { BaseService } from './BaseService.js';
-import { AirtableCreateMapping, AirtableDeleteMapping, SelectOptions } from '../dtos/index.js';
+import { AirtableResult, AirtableDeletion, SelectOptions } from '../dtos/index.js';
 
 /**
  * Defines service that accesses AirTable's data, and uses DI with typedi.
@@ -59,7 +59,7 @@ export class DataService extends BaseService {
    * @return {Promise<T[]>} - Promise resolving to an array of data
    * @memberof DataService
    */
-  async getDatas<T extends BaseModel>(
+  async getData<T extends BaseModel>(
     token: string,
     baseId: string,
     tableName: string,
@@ -76,7 +76,7 @@ export class DataService extends BaseService {
    * @param {string} baseId - Base ID of AirTable
    * @param {string} tableName - Table name in AirTable
    * @param {T} model - Data model to insert
-   * @return {Promise<AirtableCreateMapping>} - Promise resolving to the created record mapping
+   * @return {Promise<AirtableResult>} - Promise resolving to the created record mapping
    * @memberof DataService
    */
   async saveData<T extends BaseModel>(
@@ -84,7 +84,7 @@ export class DataService extends BaseService {
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableCreateMapping> {
+  ): Promise<AirtableResult> {
     return await super.save<T>(token, baseId, tableName, model);
   }
 
@@ -96,7 +96,7 @@ export class DataService extends BaseService {
    * @param {string} baseId - Base ID of AirTable
    * @param {string} tableName - Table name in AirTable
    * @param {T} model - Data model to update
-   * @return {Promise<AirtableCreateMapping>} - Promise resolving to the updated record mapping
+   * @return {Promise<AirtableResult>} - Promise resolving to the updated record mapping
    * @memberof DataService
    */
   async updateData<T extends BaseModel>(
@@ -104,7 +104,7 @@ export class DataService extends BaseService {
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableCreateMapping> {
+  ): Promise<AirtableResult> {
     return await super.update<T>(token, baseId, tableName, model);
   }
 
@@ -116,7 +116,7 @@ export class DataService extends BaseService {
    * @param {string} baseId - Base ID of AirTable
    * @param {string} tableName - Table name in AirTable
    * @param {T} model - Data model to delete
-   * @return {Promise<AirtableDeleteMapping>} - Promise resolving to the deleted record mapping
+   * @return {Promise<AirtableDeletion>} - Promise resolving to the deleted record mapping
    * @memberof DataService
    */
   async deleteData<T extends BaseModel>(
@@ -124,7 +124,7 @@ export class DataService extends BaseService {
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableDeleteMapping> {
+  ): Promise<AirtableDeletion> {
     return await super.delete<T>(token, baseId, tableName, model);
   }
 }

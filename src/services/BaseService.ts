@@ -1,6 +1,6 @@
 import { BaseModel } from '@thomascsd/stools-models';
 import { HttpService } from './HttpService.js';
-import { AirtableDeleteMapping, AirtableRecord, SelectOptions } from '../dtos/index.js';
+import { AirtableDeletion, AirtableRecord, SelectOptions } from '../dtos/index.js';
 
 /**
  * Base class that accesses Airtable API
@@ -76,7 +76,7 @@ export class BaseService {
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableDeleteMapping> {
+  ): Promise<AirtableDeletion> {
     const airtable = this.getAirTableClient(token, baseId);
 
     const res = await airtable.delete(tableName, model.id as string);
