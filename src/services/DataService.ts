@@ -1,26 +1,19 @@
-import { AirtableRecord, DeleteResponse, SelectOptions } from 'asyncairtable/lib/@types';
-import { Service, Inject, Token } from 'typedi';
+import { Service } from 'typedi';
 import { BaseModel } from '@thomascsd/stools-models';
-import { BaseService } from './BaseService';
-
-const AIRTABLE_APIKEY_TOKEN = 'stools_AIRTABLE_APIKEY_TOKEN';
-
-/**
- * Defines a token that get Airtable key
- */
-export const API_KEY_TOKEN = new Token<string>(AIRTABLE_APIKEY_TOKEN);
+import { BaseService } from './BaseService.js';
+import { AirtableCreateMapping, AirtableDeleteMapping, SelectOptions } from '../dtos/index.js';
 
 /**
- * Defines service that access AirTable's data, and use DI with typedi.
- * 
+ * Defines service that accesses AirTable's data, and uses DI with typedi.
+ *
  * ```typescript
  * import { Service, Container } from 'typedi';
  * import { DataService, BaseModel, API_KEY_TOKEN } from '@thomascsd/stools';
-
+ *
  * Container.set(API_KEY_TOKEN, process.env.<your api key>);
-
+ *
  * const BASE_ID = '<your base id>';
-
+ *
  * export class Contact extends BaseModel {
  *  name: string;
  *  email: string;
@@ -29,105 +22,109 @@ export const API_KEY_TOKEN = new Token<string>(AIRTABLE_APIKEY_TOKEN);
  *
  * @Service()
  * export class ContactService {
- * constructor(private db: DataService) {}
+ *   constructor(private db: DataService) {}
  *
- * async getContacts(): Promise<Contact[]> {
- *   return await this.db.getDatas<Contact>(BASE_ID, '<your table name of AirTable>');
- * }
+ *   async getContacts(): Promise<Contact[]> {
+ *     return await this.db.getDatas<Contact>(BASE_ID, '<your table name of AirTable>');
+ *   }
  *
- * async saveContact(contact: Contact) {
- *   return await this.db.saveData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
- * }
+ *   async saveContact(contact: Contact) {
+ *     return await this.db.saveData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
+ *   }
  *
- * async updateContact(contact: Contact) {
- *   return await this.db.updateData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
- * }
+ *   async updateContact(contact: Contact) {
+ *     return await this.db.updateData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
+ *   }
  * }
  * ```
- * 
+ *
  * @export
  * @class DataService
  * @extends {BaseService}
  */
 @Service()
 export class DataService extends BaseService {
-  constructor(@Inject(API_KEY_TOKEN) public apiKey: string) {
-    super(apiKey);
-
-    if (!this.apiKey) {
-      this.apiKey = process.env.AIRTABLE_API ?? '';
-    }
+  constructor() {
+    super();
   }
 
   /**
-   * Get Datas from AirTable
+   * Get data from AirTable
    *
    * @template T
-   * @param {string} baseId
-   * @param {string} tableName
-   * @param {SelectOptions} [options]
-   * @return {*}  {Promise<T[]>}
+   * @param {string} token - API token
+   * @param {string} baseId - Base ID of AirTable
+   * @param {string} tableName - Table name in AirTable
+   * @param {SelectOptions} [options] - Options for selecting data
+   * @return {Promise<T[]>} - Promise resolving to an array of data
    * @memberof DataService
    */
   async getDatas<T extends BaseModel>(
+    token: string,
     baseId: string,
     tableName: string,
     options?: SelectOptions
   ): Promise<T[]> {
-    return await super.get<T>(baseId, tableName, options);
+    return await super.get<T>(token, baseId, tableName, options);
   }
 
   /**
-   * Insert data to Airtable
+   * Insert data into AirTable
    *
    * @template T
-   * @param {string} baseId
-   * @param {string} tableName
-   * @param {T} model
-   * @return {*}  {Promise<AirtableRecord>}
+   * @param {string} token - API token
+   * @param {string} baseId - Base ID of AirTable
+   * @param {string} tableName - Table name in AirTable
+   * @param {T} model - Data model to insert
+   * @return {Promise<AirtableCreateMapping>} - Promise resolving to the created record mapping
    * @memberof DataService
    */
   async saveData<T extends BaseModel>(
+    token: string,
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableRecord> {
-    return await super.save<T>(baseId, tableName, model);
+  ): Promise<AirtableCreateMapping> {
+    return await super.save<T>(token, baseId, tableName, model);
   }
 
   /**
-   * Update data to AirTable
+   * Update data in AirTable
    *
    * @template T
-   * @param {string} baseId
-   * @param {string} tableName
-   * @param {T} model
-   * @return {*}  {Promise<AirtableRecord>}
+   * @param {string} token - API token
+   * @param {string} baseId - Base ID of AirTable
+   * @param {string} tableName - Table name in AirTable
+   * @param {T} model - Data model to update
+   * @return {Promise<AirtableCreateMapping>} - Promise resolving to the updated record mapping
    * @memberof DataService
    */
   async updateData<T extends BaseModel>(
+    token: string,
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableRecord> {
-    return await super.update<T>(baseId, tableName, model);
+  ): Promise<AirtableCreateMapping> {
+    return await super.update<T>(token, baseId, tableName, model);
   }
 
   /**
    * Delete data from AirTable
    *
    * @template T
-   * @param {string} baseId
-   * @param {string} tableName
-   * @param {T} model
-   * @return {*}  {Promise<DeleteResponse>}
+   * @param {string} token - API token
+   * @param {string} baseId - Base ID of AirTable
+   * @param {string} tableName - Table name in AirTable
+   * @param {T} model - Data model to delete
+   * @return {Promise<AirtableDeleteMapping>} - Promise resolving to the deleted record mapping
    * @memberof DataService
    */
   async deleteData<T extends BaseModel>(
+    token: string,
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<DeleteResponse> {
-    return await super.delete<T>(baseId, tableName, model);
+  ): Promise<AirtableDeleteMapping> {
+    return await super.delete<T>(token, baseId, tableName, model);
   }
 }
