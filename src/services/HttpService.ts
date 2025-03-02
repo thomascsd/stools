@@ -1,5 +1,5 @@
-import got from 'got';
-import { AirtableList, AirtableResult, AirtableDeletion } from '../dtos/index.js';
+import axios from 'axios';
+import { AirtableList, AirtableResult, AirtableDeletion, SelectOptions } from '../dtos/index.js';
 
 /**
  * HttpService class to interact with the Airtable API.
@@ -23,10 +23,13 @@ export class HttpService {
    * @param tableName - The name of the table.
    * @returns A promise that resolves to an AirTableListMapping object.
    */
-  async list(tableName: string): Promise<AirtableList> {
-    this.url += `${this.baseId}/${tableName}`;
-    const data = await got.get(this.url).json<AirtableList>();
-    return data;
+  async list(tableName: string, options?: SelectOptions): Promise<AirtableList> {
+    const url = `${this.url}${this.baseId}/${tableName}`;
+    const response = await axios.get<AirtableList>(url, {
+      headers: { Authorization: this.getToken() },
+      params: options,
+    });
+    return response.data;
   }
 
   /**
@@ -36,15 +39,11 @@ export class HttpService {
    * @returns A promise that resolves to an AirTableCreateMapping object.
    */
   async create(tableName: string, body: Record<string, unknown>): Promise<AirtableResult> {
-    this.url += `${this.baseId}/${tableName}`;
-
-    const data = await got
-      .post(this.url, {
-        headers: { Authorization: this.getToken() },
-        json: body,
-      })
-      .json<AirtableResult>();
-    return data;
+    const url = `${this.url}${this.baseId}/${tableName}`;
+    const response = await axios.post<AirtableResult>(url, body, {
+      headers: { Authorization: this.getToken() },
+    });
+    return response.data;
   }
 
   /**
@@ -59,20 +58,17 @@ export class HttpService {
     recordId: string,
     body: Record<string, unknown>
   ): Promise<AirtableResult> {
-    this.url += `${this.baseId}/${tableName}/${recordId}`;
-    var req = {
+    const url = `${this.url}${this.baseId}/${tableName}/${recordId}`;
+    const req = {
       returnFieldsByFieldId: false,
       typecast: false,
       fields: body,
     };
 
-    const data = await got
-      .put(this.url, {
-        headers: { Authorization: this.getToken() },
-        json: req,
-      })
-      .json<AirtableResult>();
-    return data;
+    const response = await axios.put<AirtableResult>(url, req, {
+      headers: { Authorization: this.getToken() },
+    });
+    return response.data;
   }
 
   /**
@@ -82,15 +78,11 @@ export class HttpService {
    * @returns A promise that resolves to an AirTableDeleteMapping object.
    */
   async delete(tableName: string, recordId: string): Promise<AirtableDeletion> {
-    this.url += `${this.baseId}/${tableName}/${recordId}`;
-    const data = await got
-      .delete(this.url, {
-        headers: {
-          Authorization: this.getToken(),
-        },
-      })
-      .json<AirtableDeletion>();
-    return data;
+    const url = `${this.url}${this.baseId}/${tableName}/${recordId}`;
+    const response = await axios.delete<AirtableDeletion>(url, {
+      headers: { Authorization: this.getToken() },
+    });
+    return response.data;
   }
 
   /**

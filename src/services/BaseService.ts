@@ -30,7 +30,7 @@ export class BaseService {
     options?: SelectOptions
   ): Promise<T[]> {
     const airtable = this.getAirTableClient(token, baseId);
-    const mapping = await airtable.list(tableName);
+    const mapping = await airtable.list(tableName, options);
     const records = mapping.records;
 
     const body = records

@@ -59,6 +59,7 @@
   "dependencies": {
     "@thomascsd/stools-models": "^1.0.1",
     "asyncairtable": "2.1.0",
+    "axios": "^1.8.1",
     "got": "^14.4.5",
     "reflect-metadata": "^0.1.13",
     "typedi": "^0.10.0"
