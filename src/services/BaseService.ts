@@ -1,6 +1,6 @@
 import { BaseModel } from '@thomascsd/stools-models';
-import { HttpService } from './HttpService.js';
-import { AirtableDeletion, AirtableRecord, SelectOptions } from '../dtos/index.js';
+import { HttpService } from './HttpService';
+import { AirtableDeletion, AirtableRecord, SelectOptions } from '../dtos';
 
 /**
  * Base class that accesses Airtable API
@@ -30,7 +30,7 @@ export class BaseService {
     options?: SelectOptions
   ): Promise<T[]> {
     const airtable = this.getAirTableClient(token, baseId);
-    const mapping = await airtable.list(tableName);
+    const mapping = await airtable.list(tableName, options);
     const records = mapping.records;
 
     const body = records
@@ -39,7 +39,7 @@ export class BaseService {
         fields.id = o.id;
         return fields;
       })
-      .map(fields => {
+      .map((fields) => {
         const obj: Record<string, unknown> = { ...fields };
         return obj;
       }) as T[];

@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "testEnvironment": "node",
+  "collectCoverage": true,
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": ["src/**/*.{js,ts}", "!<rootDir>/node_modules/"]
+}

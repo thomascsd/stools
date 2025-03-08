@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { BaseModel } from '@thomascsd/stools-models';
-import { DataFunctionService } from '../src/index.js';
-import { AirtableResult } from '../src/dtos/AirtableResult.js';
+import { DataFunctionService } from '../src';
+import { AirtableResult } from '../src/dtos/AirtableResult';
 
 config();
 

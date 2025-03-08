@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { BaseModel } from '@thomascsd/stools-models';
-import { BaseService } from './BaseService.js';
-import { AirtableResult, AirtableDeletion, SelectOptions } from '../dtos/index.js';
+import { BaseService } from './BaseService';
+import { AirtableResult, AirtableDeletion, SelectOptions } from '../dtos';
 
 /**
  * Defines service that accesses AirTable's data, and uses DI with typedi.

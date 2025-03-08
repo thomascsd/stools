@@ -1,3 +1,3 @@
 import 'reflect-metadata';
-export * from './services/DataService.js';
-export * from './services/DataFunctionService.js';
+export * from './services/DataService';
+export * from './services/DataFunctionService';

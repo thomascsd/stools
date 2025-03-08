@@ -1,5 +1,5 @@
 import got from 'got';
-import { AirtableList, AirtableResult, AirtableDeletion } from '../dtos/index.js';
+import { AirtableList, AirtableResult, AirtableDeletion, SelectOptions } from '../dtos';
 
 /**
  * HttpService class to interact with the Airtable API.
@@ -21,11 +21,17 @@ export class HttpService {
   /**
    * Lists records from a specified base and table.
    * @param tableName - The name of the table.
+   * @param options - Optional parameters for selecting records.
    * @returns A promise that resolves to an AirTableListMapping object.
    */
-  async list(tableName: string): Promise<AirtableList> {
+  async list(tableName: string, options?: SelectOptions): Promise<AirtableList> {
     this.url += `${this.baseId}/${tableName}`;
-    const data = await got.get(this.url).json<AirtableList>();
+    let query = {};
+    if (options) {
+      query = options;
+    }
+
+    const data = await got.get(this.url, { searchParams: query }).json<AirtableList>();
     return data;
   }
 
