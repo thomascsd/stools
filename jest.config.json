@@ -3,5 +3,11 @@
   "testEnvironment": "node",
   "collectCoverage": true,
   "coverageDirectory": "coverage",
-  "collectCoverageFrom": ["src/**/*.{js,ts}", "!<rootDir>/node_modules/"]
+  "collectCoverageFrom": ["src/**/*.{js,ts}", "!<rootDir>/node_modules/"],
+  "transformIgnorePatterns": [
+    "node_modules/(?!(got)/)"
+  ],
+  "moduleNameMapper": {
+    "^got$": "<rootDir>/node_modules/got"
+  }
 }
