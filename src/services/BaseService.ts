@@ -1,6 +1,6 @@
 import { BaseModel } from '@thomascsd/stools-models';
-import { HttpService } from './HttpService.js';
-import { AirtableDeletion, AirtableRecord, SelectOptions } from '../dtos/index.js';
+import { HttpService } from './HttpService';
+import { AirtableDeletion, AirtableRecord, SelectOptions } from '../dtos';
 
 /**
  * Base class that accesses Airtable API

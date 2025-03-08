@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AirtableList, AirtableResult, AirtableDeletion, SelectOptions } from '../dtos/index.js';
+import { AirtableList, AirtableResult, AirtableDeletion, SelectOptions } from '../dtos';
 
 /**
  * HttpService class to interact with the Airtable API.

@@ -7,7 +7,6 @@
   },
   "main": "index.js",
   "typings": "index.d.ts",
-  "type": "module",
   "engines": {
     "node": ">=10"
   },
