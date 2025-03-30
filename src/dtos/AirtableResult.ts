@@ -2,6 +2,10 @@
  * Represents the result of an Airtable query.
  */
 export interface AirtableResult {
+  records: AirtableRecord[];
+}
+
+export interface AirtableRecord {
   /**
    * The unique identifier for the record.
    */

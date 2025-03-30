@@ -31,7 +31,12 @@ export class HttpService {
       query = options;
     }
 
-    const data = await got.get(this.url, { searchParams: query }).json<AirtableList>();
+    const data = await got
+      .get(this.url, {
+        headers: { Authorization: this.getToken() },
+        searchParams: query,
+      })
+      .json<AirtableList>();
     return data;
   }
 
@@ -44,10 +49,18 @@ export class HttpService {
   async create(tableName: string, body: Record<string, unknown>): Promise<AirtableResult> {
     this.url += `${this.baseId}/${tableName}`;
 
+    const transformedBody = {
+      records: [
+        {
+          fields: body,
+        },
+      ],
+    };
+
     const data = await got
       .post(this.url, {
         headers: { Authorization: this.getToken() },
-        json: body,
+        json: transformedBody,
       })
       .json<AirtableResult>();
     return data;
@@ -66,16 +79,21 @@ export class HttpService {
     body: Record<string, unknown>
   ): Promise<AirtableResult> {
     this.url += `${this.baseId}/${tableName}/${recordId}`;
-    var req = {
-      returnFieldsByFieldId: false,
-      typecast: false,
-      fields: body,
+
+    const transformedBody = {
+      records: [
+        {
+          id: recordId,
+          fields: body,
+        },
+      ],
     };
+    console.log('🚀 ~ HttpService ~ transformedBody:', transformedBody);
 
     const data = await got
       .put(this.url, {
         headers: { Authorization: this.getToken() },
-        json: req,
+        json: transformedBody,
       })
       .json<AirtableResult>();
     return data;

@@ -32,14 +32,14 @@ describe('DataService', () => {
     result = await service.saveData(token, baseId, 'contact', model);
 
     expect(result).not.toBeUndefined();
-    expect(result.fields.name).toEqual('thomas');
+    expect(result.records[0].fields.name).toEqual('thomas');
 
     console.dir(result);
   });
 
   it('update data', async () => {
     const model: BaseModel = {
-      id: result.id,
+      id: result.records[0].id,
       name: 'thomas123',
       email: 't@sample.com',
       mobile: '0999123456',
@@ -48,14 +48,14 @@ describe('DataService', () => {
     result = await service.updateData(token, baseId, 'contact', model);
 
     expect(result).not.toBeUndefined();
-    expect(result.fields.name).toEqual('thomas123');
+    expect(result.records[0].fields.name).toEqual('thomas123');
 
     console.dir(result);
   });
 
   it('delete data', async () => {
     const model: BaseModel = {
-      id: result.id,
+      id: result.records[0].id,
     };
 
     const res = await service.deleteData(token, baseId, 'contact', model);
@@ -63,7 +63,7 @@ describe('DataService', () => {
     console.dir(res);
 
     expect(res).not.toBeUndefined();
-    expect(res.id).toEqual(result.id);
+    expect(res.id).toEqual(result.records[0].id);
     expect(res.deleted).toBeTruthy();
   });
 });
