@@ -63,12 +63,9 @@ export class BaseService {
     const tmpModel = { ...model };
     const id = tmpModel.id;
     delete tmpModel.id;
-    const body = await airtable.update(tableName, model.id as string, {
-      id: id as string,
-      fields: tmpModel,
-    });
+    const result = await airtable.update(tableName, id as string, tmpModel);
 
-    return body;
+    return result;
   }
 
   protected async delete<T extends BaseModel>(

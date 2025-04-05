@@ -1,5 +1,11 @@
 import got from 'got';
-import { AirtableList, AirtableResult, AirtableDeletion, SelectOptions } from '../dtos';
+import {
+  AirtableList,
+  AirtableResult,
+  AirtableDeletion,
+  SelectOptions,
+  AirtableUpdateResult,
+} from '../dtos';
 
 /**
  * HttpService class to interact with the Airtable API.
@@ -57,13 +63,13 @@ export class HttpService {
       ],
     };
 
-    const data = await got
+    const result = await got
       .post(this.url, {
         headers: { Authorization: this.getToken() },
         json: transformedBody,
       })
       .json<AirtableResult>();
-    return data;
+    return result;
   }
 
   /**
@@ -77,26 +83,20 @@ export class HttpService {
     tableName: string,
     recordId: string,
     body: Record<string, unknown>
-  ): Promise<AirtableResult> {
+  ): Promise<AirtableUpdateResult> {
     this.url += `${this.baseId}/${tableName}/${recordId}`;
 
     const transformedBody = {
-      records: [
-        {
-          id: recordId,
-          fields: body,
-        },
-      ],
+      fields: body,
     };
-    console.log('🚀 ~ HttpService ~ transformedBody:', transformedBody);
 
-    const data = await got
-      .put(this.url, {
+    const result = await got
+      .patch(this.url, {
         headers: { Authorization: this.getToken() },
         json: transformedBody,
       })
-      .json<AirtableResult>();
-    return data;
+      .json<AirtableUpdateResult>();
+    return result;
   }
 
   /**

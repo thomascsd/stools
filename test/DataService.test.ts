@@ -1,7 +1,7 @@
 import { config } from 'dotenv';
 import { BaseModel } from '@thomascsd/stools-models';
 import { DataService } from '../src';
-import { AirtableResult } from '../src/dtos';
+import { AirtableDeletion, AirtableResult } from '../src/dtos';
 
 config();
 
@@ -45,12 +45,13 @@ describe('DataService', () => {
       mobile: '0999123456',
     };
 
-    result = await service.updateData(token, baseId, 'contact', model);
+    const updateResult = await service.updateData(token, baseId, 'contact', model);
+    console.log('🚀 ~ it ~ updateResult:', updateResult);
 
-    expect(result).not.toBeUndefined();
-    expect(result.records[0].fields.name).toEqual('thomas123');
+    expect(updateResult).not.toBeUndefined();
+    expect(updateResult.fields.name).toEqual('thomas123');
 
-    console.dir(result);
+    console.dir(updateResult);
   });
 
   it('delete data', async () => {
@@ -58,12 +59,16 @@ describe('DataService', () => {
       id: result.records[0].id,
     };
 
-    const res = await service.deleteData(token, baseId, 'contact', model);
+    const deleteResult: AirtableDeletion = await service.deleteData(
+      token,
+      baseId,
+      'contact',
+      model
+    );
+    console.log('🚀 ~ it ~ delete ~ res:', deleteResult);
 
-    console.dir(res);
-
-    expect(res).not.toBeUndefined();
-    expect(res.id).toEqual(result.records[0].id);
-    expect(res.deleted).toBeTruthy();
+    expect(deleteResult).not.toBeUndefined();
+    expect(deleteResult.id).toEqual(model.id); // Updated to use model.id instead of result.records[0].id
+    expect(deleteResult.deleted).toBeTruthy();
   });
 });

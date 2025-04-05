@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { BaseModel } from '@thomascsd/stools-models';
 import { BaseService } from './BaseService';
-import { AirtableResult, AirtableDeletion, SelectOptions } from '../dtos';
+import { AirtableResult, AirtableDeletion, SelectOptions, AirtableUpdateResult } from '../dtos';
 
 /**
  * Defines service that accesses AirTable's data, and uses DI with typedi.
@@ -104,7 +104,7 @@ export class DataService extends BaseService {
     baseId: string,
     tableName: string,
     model: T
-  ): Promise<AirtableResult> {
+  ): Promise<AirtableUpdateResult> {
     return await super.update<T>(token, baseId, tableName, model);
   }
 

@@ -1,6 +1,6 @@
 import { BaseModel } from '@thomascsd/stools-models';
 import { BaseService } from './BaseService';
-import { AirtableResult, AirtableDeletion, SelectOptions } from '../dtos';
+import { AirtableResult, AirtableDeletion, SelectOptions, AirtableUpdateResult } from '../dtos';
 
 /**
  * Defines  service that access AirTable's data
@@ -22,7 +22,10 @@ export class DataFunctionService extends BaseService {
     return await super.save<T>(this.token, this.baseId, tableName, model);
   }
 
-  async updateData<T extends BaseModel>(tableName: string, model: T): Promise<AirtableResult> {
+  async updateData<T extends BaseModel>(
+    tableName: string,
+    model: T
+  ): Promise<AirtableUpdateResult> {
     return await super.update<T>(this.token, this.baseId, tableName, model);
   }
 

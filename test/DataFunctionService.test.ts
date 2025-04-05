@@ -53,12 +53,12 @@ describe('DataService', () => {
       mobile: '0999123456',
     };
 
-    result = await service.updateData('contact', model);
+    const updateResult = await service.updateData('contact', model);
 
-    expect(result).not.toBeUndefined();
-    expect(result.records[0].fields.name).toEqual('thomas789');
+    expect(updateResult).not.toBeUndefined();
+    expect(updateResult.fields.name).toEqual('thomas789');
 
-    console.dir(result);
+    console.dir(updateResult);
   });
 
   it('delete data', async () => {
@@ -66,12 +66,12 @@ describe('DataService', () => {
       id: result.records[0].id,
     };
 
-    const res = await service.deleteData('contact', model);
+    const deleteResult = await service.deleteData('contact', model);
 
-    console.dir(res);
+    console.log('🚀 ~ it ~ deleteResult:', deleteResult);
 
-    expect(res).not.toBeUndefined();
-    expect(res.id).toEqual(result.records[0].id);
-    expect(res.deleted).toBeTruthy();
+    expect(deleteResult).not.toBeUndefined();
+    expect(deleteResult.id).toEqual(model.id);
+    expect(deleteResult.deleted).toBeTruthy();
   });
 });
