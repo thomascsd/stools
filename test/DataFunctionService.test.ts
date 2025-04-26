@@ -1,33 +1,33 @@
 import { config } from 'dotenv';
 import { BaseModel } from '@thomascsd/stools-models';
 import { DataFunctionService } from '../src';
-import { AirtableRecord } from 'asyncairtable/lib/@types';
+import { AirtableResult } from '../src/dtos/AirtableResult';
 
 config();
 
-const apiKey = process.env.AIRTABLE_API ?? '';
+const token = process.env.AIRTABLE_API ?? '';
 const baseId = process.env.AIRTABLE_BASE_ID ?? '';
 
 describe('DataService', () => {
   let service: DataFunctionService;
-  let data: AirtableRecord;
+  let result: AirtableResult;
 
   beforeEach(() => {
-    service = new DataFunctionService(apiKey, baseId);
+    service = new DataFunctionService(token, baseId);
   });
 
   it('apikey by env', () => {
-    expect(service.apiKey).toEqual(apiKey);
+    expect(service.token).toEqual(token);
   });
 
   it('baseId by env', () => {
     expect(service.baseId).toEqual(baseId);
   });
 
-  it('get datas', async () => {
-    const datas = await service.getDatas('contact');
+  it('get data', async () => {
+    const data = await service.getData('contact');
 
-    expect(datas.length).not.toEqual(0);
+    expect(data.length).not.toEqual(0);
   });
 
   it('add data', async () => {
@@ -37,41 +37,41 @@ describe('DataService', () => {
       mobile: '0999123456',
     };
 
-    data = await service.saveData('contact', model);
+    result = await service.saveData('contact', model);
 
-    expect(data).not.toBeUndefined();
-    expect(data.fields.name).toEqual('thomas');
+    expect(result).not.toBeUndefined();
+    expect(result.records[0].fields.name).toEqual('thomas');
 
-    console.dir(data);
+    console.dir(result);
   });
 
   it('update data', async () => {
     const model: BaseModel = {
-      id: data.id,
+      id: result.records[0].id,
       name: 'thomas789',
       email: 't123@sample.com',
       mobile: '0999123456',
     };
 
-    data = await service.updateData('contact', model);
+    const updateResult = await service.updateData('contact', model);
 
-    expect(data).not.toBeUndefined();
-    expect(data.fields.name).toEqual('thomas789');
+    expect(updateResult).not.toBeUndefined();
+    expect(updateResult.fields.name).toEqual('thomas789');
 
-    console.dir(data);
+    console.dir(updateResult);
   });
 
   it('delete data', async () => {
     const model: BaseModel = {
-      id: data.id,
+      id: result.records[0].id,
     };
 
-    const res = await service.deleteData('contact', model);
+    const deleteResult = await service.deleteData('contact', model);
 
-    console.dir(res);
+    console.log('🚀 ~ it ~ deleteResult:', deleteResult);
 
-    expect(res).not.toBeUndefined();
-    expect(res.id).toEqual(data.id);
-    expect(res.deleted).toBeTruthy();
+    expect(deleteResult).not.toBeUndefined();
+    expect(deleteResult.id).toEqual(model.id);
+    expect(deleteResult.deleted).toBeTruthy();
   });
 });
