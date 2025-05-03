@@ -7,12 +7,9 @@ import { AirtableResult, AirtableDeletion, SelectOptions, AirtableUpdateResult }
  * Defines service that accesses AirTable's data, and uses DI with typedi.
  *
  * ```typescript
- * import { Service, Container } from 'typedi';
- * import { DataService, BaseModel, API_KEY_TOKEN } from '@thomascsd/stools';
+ * import { Service } from 'typedi';
+ * import { DataService, BaseModel } from '@thomascsd/stools';
  *
- * Container.set(API_KEY_TOKEN, process.env.<your api key>);
- *
- * const BASE_ID = '<your base id>';
  *
  * export class Contact extends BaseModel {
  *  name: string;
@@ -25,15 +22,19 @@ import { AirtableResult, AirtableDeletion, SelectOptions, AirtableUpdateResult }
  *   constructor(private db: DataService) {}
  *
  *   async getContacts(): Promise<Contact[]> {
- *     return await this.db.getDatas<Contact>(BASE_ID, '<your table name of AirTable>');
+ *     return await this.db.getDatas<Contact>('<your API token of AirTable>', BASE_ID, '<your table name of AirTable>');
  *   }
  *
  *   async saveContact(contact: Contact) {
- *     return await this.db.saveData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
+ *     return await this.db.saveData<Contact>('<your API token of AirTable>', BASE_ID, '<your table name of AirTable>', contact);
  *   }
  *
  *   async updateContact(contact: Contact) {
- *     return await this.db.updateData<Contact>(BASE_ID, '<your table name of AirTable>', contact);
+ *     return await this.db.updateData<Contact>('<your API token of AirTable>', BASE_ID, '<your table name of AirTable>', contact);
+ *   }
+ *
+ *   async deleteContact(contact: Contact) {
+ *     return await this.db.deleteData<Contact>('<your API token of AirTable>', BASE_ID, '<your table name of AirTable>', contact);
  *   }
  * }
  * ```

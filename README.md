@@ -14,14 +14,14 @@ My Swiss knife
 
 Folowing features:
 
-- Wrap [async-airtable](https://github.com/GV14982/async-airtable) to access AirTable API easily.
+- Accessing Airtable to perform CRUD operations
 
 ### Deep dependency
 
-stools use [typedi](https://github.com/typestack/typedi) as dependency injection, and [async-airtable](https://github.com/GV14982/async-airtable) as access AirTable API.
+stools use [typedi](https://github.com/typestack/typedi) as dependency injection
 
 ```
-npm install typedi reflect-metadata asyncairtable
+npm install typedi reflect-metadata
 ```
 
 ### Installing
