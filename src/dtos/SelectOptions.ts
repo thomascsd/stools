@@ -1,17 +1,44 @@
 /**
- * Represents the options for selecting records.
- * @property {string[]} [fields] - An array of field names to include in the response. If not specified, all fields will be returned.
- * @property {string} [filterByFormula] - A formula used to filter records, following Airtable formula syntax.
- * @property {number} [maxRecords] - The maximum total number of records to return.
- * @property {number} [pageSize] - The number of records to return per page.
- * @property {string} [sort] - Specifies the sorting order (e.g., "fieldName asc" or "fieldName desc").
- * @property {string} [view] - The name or ID of the view to use. If not specified, the default view is used.
+ * Options for selecting records from an Airtable base.
+ * @interface SelectOptions
  */
 export interface SelectOptions {
+  /**
+   * An array of field names to include in the response.
+   * If not specified, all fields will be returned.
+   * @type {string[]}
+   * @memberof SelectOptions
+   */
   fields?: string[];
+  /**
+   * A formula used to filter records, following Airtable formula syntax.
+   * @type {string}
+   * @memberof SelectOptions
+   */
   filterByFormula?: string;
+  /**
+   * The maximum total number of records to return.
+   * @type {number}
+   * @memberof SelectOptions
+   */
   maxRecords?: number;
+  /**
+   * The number of records to return per page.
+   * @type {number}
+   * @memberof SelectOptions
+   */
   pageSize?: number;
-  sort?: string;
+  /**
+   * Specifies the sorting order (e.g., "fieldName asc" or "fieldName desc").
+   * @type {string}
+   * @memberof SelectOptions
+   */
+  sort?: string; // Note: Airtable API actually expects an array of sort objects, but the 'airtable' package might simplify this. Check package docs if issues arise.
+  /**
+   * The name or ID of the view to use.
+   * If not specified, the default view is used.
+   * @type {string}
+   * @memberof SelectOptions
+   */
   view?: string;
 }

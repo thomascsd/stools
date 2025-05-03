@@ -10,7 +10,7 @@
 
 My Swiss knife
 
-## Getting Started <a name = "getting_started"></a>
+## Getting Started
 
 Folowing features:
 
@@ -30,6 +30,6 @@ npm install typedi reflect-metadata
 npm install @thomascsd/stools
 ```
 
-## Doc <a name = "docs"></a>
+## Doc
 
 [docs](https://thomascsd.github.io/stools/)
