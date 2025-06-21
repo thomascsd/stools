@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { BaseModel } from '@thomascsd/stools-models';
+import { BaseModel } from '../dtos';
 import { BaseService } from './BaseService';
 import { AirtableResult, AirtableDeletion, SelectOptions, AirtableUpdateResult } from '../dtos';
 
