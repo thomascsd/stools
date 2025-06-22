@@ -5,8 +5,8 @@
   "repository": {
     "url": "https://github.com/thomascsd/stools"
   },
-  "main": "index.js",
-  "typings": "index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "engines": {
     "node": ">=18"
   },
