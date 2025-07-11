@@ -1,4 +1,5 @@
-import got from 'got';
+import { request as httpsRequest } from 'https';
+import { URL } from 'url';
 import {
   AirtableList,
   AirtableResult,
@@ -8,21 +9,15 @@ import {
 } from '../dtos';
 
 /**
- * HttpService class to interact with the Airtable API.
+ * HttpService class to interact with the Airtable API using Node.js native https module.
  */
 export class HttpService {
   /**
-   * The base URL for the Airtable API.
-   */
-  url: string;
-
-  /**
    * Creates an instance of HttpService.
    * @param token - The API token for authentication.
+   * @param baseId - The Airtable base ID.
    */
-  constructor(private token: string, private baseId: string) {
-    this.url = `https://api.airtable.com/v0/`;
-  }
+  constructor(private token: string, private baseId: string) {}
 
   /**
    * Lists records from a specified base and table.
@@ -31,19 +26,8 @@ export class HttpService {
    * @returns A promise that resolves to an AirTableListMapping object.
    */
   async list(tableName: string, options?: SelectOptions): Promise<AirtableList> {
-    this.url += `${this.baseId}/${tableName}`;
-    let query = {};
-    if (options) {
-      query = options;
-    }
-
-    const data = await got
-      .get(this.url, {
-        headers: { Authorization: this.getToken() },
-        searchParams: query,
-      })
-      .json<AirtableList>();
-    return data;
+    const path = `${this.baseId}/${tableName}`;
+    return this._request<AirtableList>('GET', path, undefined, options);
   }
 
   /**
@@ -53,8 +37,7 @@ export class HttpService {
    * @returns A promise that resolves to an AirTableCreateMapping object.
    */
   async create(tableName: string, body: Record<string, unknown>): Promise<AirtableResult> {
-    this.url += `${this.baseId}/${tableName}`;
-
+    const path = `${this.baseId}/${tableName}`;
     const transformedBody = {
       records: [
         {
@@ -62,14 +45,7 @@ export class HttpService {
         },
       ],
     };
-
-    const result = await got
-      .post(this.url, {
-        headers: { Authorization: this.getToken() },
-        json: transformedBody,
-      })
-      .json<AirtableResult>();
-    return result;
+    return this._request<AirtableResult>('POST', path, transformedBody);
   }
 
   /**
@@ -84,19 +60,9 @@ export class HttpService {
     recordId: string,
     body: Record<string, unknown>
   ): Promise<AirtableUpdateResult> {
-    this.url += `${this.baseId}/${tableName}/${recordId}`;
-
-    const transformedBody = {
-      fields: body,
-    };
-
-    const result = await got
-      .patch(this.url, {
-        headers: { Authorization: this.getToken() },
-        json: transformedBody,
-      })
-      .json<AirtableUpdateResult>();
-    return result;
+    const path = `${this.baseId}/${tableName}/${recordId}`;
+    const transformedBody = { fields: body };
+    return this._request<AirtableUpdateResult>('PATCH', path, transformedBody);
   }
 
   /**
@@ -106,15 +72,68 @@ export class HttpService {
    * @returns A promise that resolves to an AirTableDeleteMapping object.
    */
   async delete(tableName: string, recordId: string): Promise<AirtableDeletion> {
-    this.url += `${this.baseId}/${tableName}/${recordId}`;
-    const data = await got
-      .delete(this.url, {
-        headers: {
-          Authorization: this.getToken(),
-        },
-      })
-      .json<AirtableDeletion>();
-    return data;
+    const path = `${this.baseId}/${tableName}/${recordId}`;
+    return this._request<AirtableDeletion>('DELETE', path);
+  }
+
+  /**
+   * Internal method to perform HTTP requests to Airtable API.
+   * Handles query params, headers, body, and error cases.
+   * @template T - Expected response type
+   * @param method - HTTP method
+   * @param path - API path after /v0/
+   * @param body - Optional request body
+   * @param query - Optional query params
+   * @returns Promise<T>
+   */
+  private _request<T>(
+    method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
+    path: string,
+    body?: unknown,
+    query?: Record<string, any>
+  ): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+      const baseUrl = 'https://api.airtable.com/v0/';
+      const url = new URL(baseUrl + path);
+      if (query && method === 'GET') {
+        Object.entries(query).forEach(([k, v]) => {
+          if (v !== undefined && v !== null) url.searchParams.append(k, String(v));
+        });
+      }
+      const headers: Record<string, string> = {
+        Authorization: this.getToken(),
+        'Content-Type': 'application/json',
+      };
+      const options = {
+        method,
+        headers,
+      };
+
+      const req = httpsRequest(url, options, (res) => {
+        let data = '';
+        res.on('data', (chunk) => (data += chunk));
+        res.on('end', () => {
+          try {
+            if (res.statusCode && res.statusCode >= 400) {
+              return reject(
+                new Error(`Airtable API error: ${res.statusCode} ${res.statusMessage} - ${data}`)
+              );
+            }
+            resolve(JSON.parse(data));
+          } catch (err) {
+            reject(new Error('Failed to parse response: ' + (err as Error).message));
+          }
+        });
+      });
+
+      req.on('error', (err) => reject(new Error('Network error: ' + err.message)));
+
+      if (body && method !== 'GET') {
+        req.write(JSON.stringify(body));
+      }
+
+      req.end();
+    });
   }
 
   /**

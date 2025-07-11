@@ -1,6 +1,11 @@
-import { BaseModel } from '@thomascsd/stools-models';
 import { BaseService } from './BaseService';
-import { AirtableResult, AirtableDeletion, SelectOptions, AirtableUpdateResult } from '../dtos';
+import {
+  AirtableResult,
+  AirtableDeletion,
+  SelectOptions,
+  AirtableUpdateResult,
+  BaseModel,
+} from '../dtos';
 
 /**
  * Defines  service that access AirTable's data

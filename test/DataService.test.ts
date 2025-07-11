@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { BaseModel } from '@thomascsd/stools-models';
+import { BaseModel } from '../src/dtos/BaseModel';
 import { DataService } from '../src';
 import { AirtableDeletion, AirtableResult } from '../src/dtos';
 

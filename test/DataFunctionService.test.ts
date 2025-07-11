@@ -1,5 +1,5 @@
 import { config } from 'dotenv';
-import { BaseModel } from '@thomascsd/stools-models';
+import { BaseModel } from '../src/dtos/BaseModel';
 import { DataFunctionService } from '../src';
 import { AirtableResult } from '../src/dtos/AirtableResult';
 

@@ -1,4 +1,3 @@
-import { BaseModel } from '@thomascsd/stools-models';
 import { HttpService } from './HttpService';
 import {
   AirtableDeletion,
@@ -6,6 +5,7 @@ import {
   AirtableResult,
   AirtableUpdateResult,
   SelectOptions,
+  BaseModel,
 } from '../dtos';
 
 /**
