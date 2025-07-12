@@ -83,33 +83,36 @@ export class HttpService {
    * @param method - HTTP method
    * @param path - API path after /v0/
    * @param body - Optional request body
-   * @param query - Optional query params
+   * @param options - Optional parameters for selecting records.
    * @returns Promise<T>
    */
   private _request<T>(
     method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
     path: string,
     body?: unknown,
-    query?: Record<string, any>
+    options?: SelectOptions
   ): Promise<T> {
     return new Promise<T>((resolve, reject) => {
       const baseUrl = 'https://api.airtable.com/v0/';
       const url = new URL(baseUrl + path);
-      if (query && method === 'GET') {
-        Object.entries(query).forEach(([k, v]) => {
+
+      if (options && method === 'GET') {
+        Object.entries(options).forEach(([k, v]) => {
           if (v !== undefined && v !== null) url.searchParams.append(k, String(v));
         });
       }
+
       const headers: Record<string, string> = {
         Authorization: this.getToken(),
         'Content-Type': 'application/json',
       };
-      const options = {
+
+      const reqOptions = {
         method,
         headers,
       };
 
-      const req = httpsRequest(url, options, (res) => {
+      const req = httpsRequest(url, reqOptions, (res) => {
         let data = '';
         res.on('data', (chunk) => (data += chunk));
         res.on('end', () => {
