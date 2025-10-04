@@ -1,14 +1,11 @@
 # @thomascsd/stools
 
+My Swiss knife
+
 ## Table of Contents
 
-- [About](#about)
 - [Getting Started](#getting_started)
 - [Docs](#docs)
-
-## About <a name = "about"></a>
-
-My Swiss knife
 
 ## Getting Started
 
