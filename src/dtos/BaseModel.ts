@@ -15,7 +15,7 @@ export interface BaseObj extends Record<string, unknown> {
  * @property {string} [id] - Optional unique identifier for the model.
  * @property {unknown} [x: string] - Index signature allowing additional properties of any type.
  */
-export declare class BaseModel implements BaseObj {
+export class BaseModel implements BaseObj {
   [x: string]: unknown;
   id?: string;
 }
