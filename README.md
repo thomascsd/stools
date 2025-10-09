@@ -2,16 +2,10 @@
 
 My Swiss knife
 
-## Table of Contents
-
-- [Getting Started](#getting_started)
-- [Docs](#docs)
-
-## Getting Started
-
 Folowing features:
 
 - Accessing Airtable to perform CRUD operations
+- ESM-compatible output 
 
 ### Deep dependency
 
