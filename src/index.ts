@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-export * from './services/DataService';
-export * from './services/DataFunctionService';
-export * from './services/HttpService';
-export * from './services/BaseService';
-export * from './dtos';
+export * from './services/DataService.js';
+export * from './services/DataFunctionService.js';
+export * from './services/HttpService.js';
+export * from './services/BaseService.js';
+export * from './dtos/index.js';

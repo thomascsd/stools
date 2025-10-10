@@ -1,20 +1,11 @@
 # @thomascsd/stools
 
-## Table of Contents
-
-- [About](#about)
-- [Getting Started](#getting_started)
-- [Docs](#docs)
-
-## About <a name = "about"></a>
-
 My Swiss knife
-
-## Getting Started
 
 Folowing features:
 
 - Accessing Airtable to perform CRUD operations
+- ESM-compatible output 
 
 ### Deep dependency
 
