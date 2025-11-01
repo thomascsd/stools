@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'node',
+    testTimeout: 200000,
     coverage: {
       reporter: ['text', 'lcov'],
       exclude: [

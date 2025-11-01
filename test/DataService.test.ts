@@ -17,10 +17,10 @@ describe('DataService', () => {
     service = new DataService();
   });
 
-  it('get datas', async () => {
-    const datas = await service.getData(token, baseId, 'contact');
+  it('get data', async () => {
+    const data = await service.getData(token, baseId, 'contact');
 
-    expect(datas.length).not.toEqual(0);
+    expect(data.length).not.toEqual(0);
   });
 
   it('add data', async () => {
