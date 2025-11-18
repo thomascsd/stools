@@ -1,4 +1,5 @@
 import { config } from 'dotenv';
+import { describe, expect, it, beforeEach } from 'vitest';
 import { BaseModel } from '../src/dtos/BaseModel';
 import { DataFunctionService } from '../src';
 import { AirtableResult } from '../src/dtos/AirtableResult';
